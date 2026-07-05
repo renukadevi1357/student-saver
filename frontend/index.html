@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Clarity | Student Expense Tracker</title>
+
+<!-- Tailwind (utility CSS) -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<!-- Tailwind theme config (colors/fonts/spacing from DESIGN.md) -->
+<script src="tailwind.config.js"></script>
+
+<!-- Our own stylesheet -->
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<div class="flex h-screen overflow-hidden">
+
+  <!-- SideNavBar -->
+  <aside class="hidden md:flex flex-col h-full py-8 bg-surface-container-low border-r border-outline-variant w-64 shrink-0 overflow-y-auto">
+    <div class="px-6 mb-12">
+      <h2 class="font-title-lg text-title-lg font-black text-primary">Student Saver</h2>
+      <p class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Academic Year 2024</p>
+    </div>
+    <nav class="flex-1 space-y-2 px-2">
+      <a class="flex items-center gap-4 px-4 py-3 bg-primary text-on-primary font-semibold rounded-lg mx-2 cursor-pointer" href="index.html">
+        <span class="material-symbols-outlined">dashboard</span><span class="text-sm">Dashboard</span>
+      </a>
+      <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary mx-2 hover:bg-surface-container-high transition-all cursor-pointer" href="#" id="navLogExpense">
+        <span class="material-symbols-outlined">add_circle</span><span class="text-sm">Log Expense</span>
+      </a>
+      <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary mx-2 hover:bg-surface-container-high transition-all cursor-pointer" href="history.html">
+        <span class="material-symbols-outlined">history</span><span class="text-sm">History</span>
+      </a>
+      <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary mx-2 hover:bg-surface-container-high transition-all cursor-pointer" href="categories.html">
+        <span class="material-symbols-outlined">category</span><span class="text-sm">Categories</span>
+      </a>
+      <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary mx-2 hover:bg-surface-container-high transition-all cursor-pointer" href="profile.html">
+        <span class="material-symbols-outlined">person</span><span class="text-sm">Profile</span>
+      </a>
+    </nav>
+    <div class="mt-auto px-6 pt-8 border-t border-outline-variant space-y-4">
+      <button class="w-full py-3 px-4 bg-primary text-on-primary font-bold rounded-xl hover:opacity-90 transition-opacity">Upgrade to Pro</button>
+      <div class="space-y-2">
+        <a class="flex items-center gap-4 text-on-surface-variant hover:text-primary transition-colors text-sm" href="#"><span class="material-symbols-outlined">help</span><span>Help</span></a>
+        <a class="flex items-center gap-4 text-on-surface-variant hover:text-primary transition-colors text-sm" href="#"><span class="material-symbols-outlined">logout</span><span>Sign Out</span></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Canvas -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+      <div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+        <div class="flex items-center gap-8">
+          <span class="font-headline-md text-headline-md font-bold text-primary">Financial Clarity</span>
+          <nav class="hidden md:flex gap-6">
+            <a class="text-sm text-primary border-b-2 border-primary font-bold cursor-pointer px-1" href="index.html">Dashboard</a>
+            <a class="text-sm text-on-surface-variant hover:text-primary cursor-pointer px-1" href="history.html">History</a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="relative hidden sm:block">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+            <input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary text-sm w-64" id="searchInput" placeholder="Search transactions..." type="text"/>
+          </div>
+          <button class="hidden lg:flex items-center gap-1 bg-primary text-on-primary px-6 py-2 rounded-full font-bold active:opacity-80 transition-opacity" id="addExpenseBtn">
+            <span class="material-symbols-outlined text-[20px]">add</span> Add Expense
+          </button>
+          <div class="flex items-center gap-2">
+            <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full cursor-pointer transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+            <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full cursor-pointer transition-colors"><span class="material-symbols-outlined">settings</span></button>
+            <a class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container cursor-pointer ml-2 bg-surface-container flex items-center justify-center" href="profile.html">
+              <span class="material-symbols-outlined text-primary">person</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex-1 overflow-y-auto p-6 lg:p-10 space-y-6 max-w-screen-2xl mx-auto w-full">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+        <div>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface">Financial Overview</h1>
+          <p class="text-body-lg text-on-surface-variant">Here's what's happening with your campus budget today.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="flex items-center gap-1 px-4 py-2 border border-outline-variant rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[18px]">calendar_today</span> This Month
+          </button>
+          <button class="flex items-center gap-1 px-4 py-2 border border-outline-variant rounded-lg text-sm text-on-surface-variant hover:bg-surface-container transition-colors" id="exportBtn">
+            <span class="material-symbols-outlined text-[18px]">download</span> Export
+          </button>
+        </div>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Total Spent Card -->
+        <div class="col-span-12 lg:col-span-8 bg-white border border-outline-variant rounded-xl p-8 shadow-sm relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-primary-container opacity-5 rounded-full -mr-20 -mt-20"></div>
+          <div class="relative z-10">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Total Spent This Month</p>
+                <h2 class="font-display-lg text-display-lg text-on-surface" id="totalSpent">₹0.00</h2>
+              </div>
+              <div class="bg-surface-container text-primary p-3 rounded-xl"><span class="material-symbols-outlined text-[32px]">payments</span></div>
+            </div>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="flex items-center gap-1 font-semibold" id="percentChangeWrap">
+                <span class="material-symbols-outlined" id="percentChangeIcon">trending_up</span>
+                <span id="percentChange">0%</span>
+              </div>
+              <span class="text-on-surface-variant text-sm">vs last month (<span id="lastMonthTotal">₹0.00</span>)</span>
+            </div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/30">
+                <p class="text-xs font-bold text-on-surface-variant">Daily Avg</p>
+                <p class="font-title-lg text-title-lg text-on-surface" id="dailyAvg">₹0.00</p>
+              </div>
+              <div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/30">
+                <p class="text-xs font-bold text-on-surface-variant">Budget Left</p>
+                <p class="font-title-lg text-title-lg text-on-surface" id="budgetLeft">₹0.00</p>
+              </div>
+              <div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant/30">
+                <p class="text-xs font-bold text-on-surface-variant">Safe to Spend</p>
+                <p class="font-title-lg text-title-lg text-primary" id="safeToSpend">₹0.00/day</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="col-span-12 lg:col-span-4 bg-white border border-outline-variant rounded-xl p-8 shadow-sm">
+          <div class="flex items-center justify-between mb-8">
+            <h3 class="font-headline-md text-headline-md text-on-surface">Categories</h3>
+            <button class="text-primary font-bold text-sm">Details</button>
+          </div>
+          <div class="space-y-6" id="categoryList">
+            <div class="h-10 skeleton rounded-lg"></div>
+          </div>
+          <div class="mt-8 pt-6 border-t border-outline-variant">
+            <div class="flex justify-between items-center bg-primary-container/10 p-4 rounded-xl">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">info</span>
+                <span class="text-sm font-medium text-on-primary-container" id="budgetUsedLabel">0% of budget used</span>
+              </div>
+              <span class="material-symbols-outlined text-primary cursor-pointer">chevron_right</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="col-span-12 lg:col-span-8 bg-white border border-outline-variant rounded-xl shadow-sm flex flex-col overflow-hidden">
+          <div class="p-6 border-b border-outline-variant/30 flex items-center justify-between">
+            <h3 class="font-headline-md text-headline-md text-on-surface">Recent Transactions</h3>
+            <div class="flex items-center gap-4">
+              <div class="flex border border-outline-variant rounded-lg overflow-hidden" id="filterTabs">
+                <button class="px-4 py-1 bg-surface-container-high font-bold text-xs uppercase tracking-wider" data-type="all">All</button>
+                <button class="px-4 py-1 font-bold text-xs uppercase tracking-wider hover:bg-surface-container transition-colors" data-type="expense">Expenses</button>
+                <button class="px-4 py-1 font-bold text-xs uppercase tracking-wider hover:bg-surface-container transition-colors" data-type="income">Income</button>
+              </div>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-surface-container-low">
+                <tr>
+                  <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Merchant / Description</th>
+                  <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Category</th>
+                  <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Date</th>
+                  <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant/20" id="txnTableBody">
+                <tr><td class="p-8 text-center text-sm text-on-surface-variant" colspan="4">Loading transactions...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-auto p-6 text-center border-t border-outline-variant/30">
+            <button class="text-xs font-bold text-primary hover:underline uppercase tracking-wider" id="viewAllTransactionsBtn">View All Transactions</button>
+          </div>
+        </div>
+
+        <!-- Budget Goal -->
+        <div class="col-span-12 lg:col-span-4 space-y-6">
+          <div class="bg-inverse-surface text-inverse-on-surface rounded-xl p-8 shadow-lg relative overflow-hidden h-full flex flex-col">
+            <div class="relative z-10">
+              <h3 class="font-headline-md text-headline-md mb-4">Budget Goal</h3>
+              <p class="text-sm mb-8 opacity-80" id="goalDescription">Loading your goal...</p>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-widest opacity-80" id="goalName">Goal</span>
+                <span class="font-title-lg" id="goalAmounts">₹0 / ₹0</span>
+              </div>
+              <div class="h-3 w-full bg-white/20 rounded-full mb-10">
+                <div class="h-full bg-primary-fixed rounded-full shadow-[0_0_10px_rgba(111,251,190,0.5)]" id="goalProgressBar" style="width: 0%;"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white/10 rounded-lg p-4 text-center">
+                  <p class="text-[24px] font-bold" id="streakDays">0</p>
+                  <p class="text-[10px] uppercase font-bold tracking-widest opacity-70">Days Streak</p>
+                </div>
+                <div class="bg-white/10 rounded-lg p-4 text-center">
+                  <p class="text-[24px] font-bold" id="accuracyPct">0%</p>
+                  <p class="text-[10px] uppercase font-bold tracking-widest opacity-70">Accuracy</p>
+                </div>
+              </div>
+            </div>
+            <div class="absolute bottom-0 right-0 p-4 opacity-10"><span class="material-symbols-outlined text-[120px]">savings</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add Expense Modal -->
+<div class="fixed inset-0 bg-black/40 z-[70] hidden items-center justify-center p-4" id="expenseModal">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="font-headline-md text-headline-md text-on-surface">Log New Expense</h3>
+      <button class="text-on-surface-variant hover:text-primary" id="closeModalBtn"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form class="space-y-4" id="expenseForm">
+      <div>
+        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Merchant</label>
+        <input class="mt-1 w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary text-sm" id="fMerchant" placeholder="e.g. Campus Canteen" required="" type="text"/>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Description</label>
+        <input class="mt-1 w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary text-sm" id="fDescription" placeholder="e.g. Lunch Special" type="text"/>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Category</label>
+          <select class="mt-1 w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary text-sm" id="fCategory"></select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Type</label>
+          <select class="mt-1 w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary text-sm" id="fType">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Amount (₹)</label>
+        <input class="mt-1 w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary text-sm" id="fAmount" min="0" placeholder="0.00" required="" step="0.01" type="number"/>
+      </div>
+      <button class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg hover:opacity-90 transition-opacity" type="submit">Save Expense</button>
+    </form>
+  </div>
+</div>
+
+<!-- Quick Action FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group" id="quickAddExpense">
+  <span class="material-symbols-outlined text-[32px] group-hover:rotate-90 transition-transform">add</span>
+  <span class="absolute right-full mr-4 bg-inverse-surface text-on-primary-fixed px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl border border-outline-variant/20">Log New Expense</span>
+</button>
+
+<!-- Toast -->
+<div class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary-fixed px-8 py-3 rounded-xl shadow-2xl opacity-0 pointer-events-none transition-all translate-y-10 z-[60] flex items-center gap-4" id="toast">
+  <span class="material-symbols-outlined text-primary-fixed">check_circle</span>
+  <span class="text-sm font-bold uppercase tracking-wider" id="toastMsg">Expense logged successfully!</span>
+</div>
+
+<!-- Our own JavaScript: common.js (shared) must load before the page script -->
+<script src="common.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
